@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Login{% endblock %}
+
+{% block body %}
+    <div id="wrapper" class="d-flex container bg-login w-100">
+        <div class="row align-items-center justify-content-center media-body">
+            <div class="col-12 col-sm-auto">
+                <div class="box p-3 p-sm-5">
+                    <form method="POST" id="form-login" class="form-login animated slow fadeIn">
+                        <div class="text-center">
+{#                            <img src="{{ asset('images/icon.png') }}" alt="2iM" width="65px" class="mb-4 mb-sm-5">#}
+{#                            <h2 class="font-weight-bold">Modelos Avaliação</h2>#}
+                        </div>
+                        {% if app.user %}
+                            <p class="text-muted text-center mb-4 mb-sm-5">{{ app.getUser().getNome() }}, você já está logado</p>
+                            <div class="text-center">
+{#                                <p><a href="{{ path('dashboard') }}" class="btn btn-outline-primary"><i class="fal fa-home-alt mr-2"></i>Ir para o Dashboard</a></p>#}
+                                <p><a href="{{ path('app_logout') }}" class="text-muted" onclick="loading(true);">Logout</a></p>
+                            </div>
+                        {% else %}
+                            <p class="text-muted mb-4 mb-sm-5">Insira seu e-mail e senha para acessar o sistema!</p>
+                            <input type="hidden" name="_csrf_token" id="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                            <div class="form-group">
+                                <label class="has-float-label">
+                                    <input type="text" value="" name="login" id="login" class="form-control py-4" required placeholder="seu@email.com" autofocus autocomplete="username">
+                                    <span>Usuário</span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="has-float-label">
+                                    <input type="password" name="senha" id="senha" required class="form-control py-4" autocomplete="new-password" placeholder="Senha">
+                                    <span>Senha</span>
+                                </label>
+                            </div>
+                            <button class="btn btn-block btn-primary text-left py-2" type="submit">
+                                <div class="row align-items-center py-1">
+                                    <div class="col">
+                                        <small class=" font-weight-bold">Entrar no sistema</small>
+                                    </div>
+                                    <div class="col col-auto">
+                                        <i class="fal fa-arrow-right" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </button>
+                            <p class="text-center pt-3 pt-sm-4 mb-0"><small><a href="#">Esqueceu a senha?</a></small></p>
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

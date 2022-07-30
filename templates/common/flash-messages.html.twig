@@ -1,0 +1,20 @@
+{% if app.flashes is defined %}
+    <div class="flash-messages">
+    	{% for message in app.flashes('success') %}
+        		<div class="alert alert-success animated fadeInDown">
+            			<button type="button" class="close">
+                				<span>&times;</span>
+                			</button>
+            			{{ message }}
+            		</div>
+        	{% endfor %}
+    	{% for message in app.flashes('error') %}
+        		<div class="alert alert-danger animated fadeInDown">
+            			<button type="button" class="close">
+                				<span>&times;</span>
+                			</button>
+            			{{ message }}
+            		</div>
+        	{% endfor %}
+    </div>
+{% endif %}
