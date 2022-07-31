@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Usuários - {{ parent() }}{% endblock %}
+
+{% block body %}
+
+    <table>
+        <thead>
+            <tr>
+                <th>NOME</th>
+                <th>E-MAIL</th>
+                <th>PERFIL</th>
+                <th>DATA ADD</th>
+                <th>ATIVO</th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.nome }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.profile }}</td>
+                    <td>{{ user.dataAdd|date }}</td>
+                    <td>{{ user.active }}</td>
+                    <td>
+                        <a href="{{ path('user_edit', {id: user.idUsuario}) }}">Editar</a>
+                        <a href="{{ path('user_delete', {id: user.idUsuario}) }}">Deletar</a>
+                    </td>
+                </tr>
+            {% else %}
+                Nenhum usuário cadastrado!
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ path('dashboard') }}">Voltar</a>
+    <a href="{{ path('user_add') }}">Adicionar</a>
+{% endblock %}
+

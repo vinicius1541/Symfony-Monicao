@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Adicionar Usuários - {{ parent() }}{% endblock title %}
+
+{% block body %}
+    <form id="form-user" action="{{ path('user_add') }}" method="post">
+        <div class="">
+            <h6>DADOS DO USUÁRIO</h6>
+        </div>
+        <div class="">
+            <label for="input-email">E-mail</label>
+            <input type="email" name="email" id="input-email" required placeholder="seu@email.com">
+        </div>
+        <div class="row">
+            <div class="col">
+                <label for="input-nome">Nome</label>
+                <input type="text" name="nome" id="input-nome">
+            </div>
+            <div class="col">
+                <label for="input-login">Login</label>
+                <input type="text" name="login" id="input-login">
+            </div>
+            <div class="col">
+                <label for="input-senha">Senha</label>
+                <input type="password" name="senha" id="input-senha">
+            </div>
+            <div class="col">
+                <label for="input-active">Ativo</label>
+                <input type="checkbox" name="active" id="input-active">
+            </div>
+            <div class="col">
+                <label for="input-profile">Acesso</label>
+                <select name="profile" id="input-profile">
+                    <option value="">Selecione...</option>
+                    <option value="ROLE_ADM">Administrador</option>
+                </select>
+            </div>
+        </div>
+        <a href="{{ path('user_default') }}">Voltar</a>
+        <button type="submit">Salvar</button>
+    </form>
+{% endblock body %}

@@ -24,10 +24,14 @@ security:
             remember_me:
                 secret: '%kernel.secret%'
                 lifetime: 2592000
+    role_hierarchy:
+        ROLE_ADM: [ROLE_ADM]
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/logout, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
+
+        - { path: ^/user, roles: ROLE_ADM }
 
 when@test:
     security:

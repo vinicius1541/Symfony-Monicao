@@ -1,1 +1,6 @@
-teste::::::::::teste
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard - {{ parent() }}{% endblock title %}
+{% block body %}
+    <a href="{{ path('user_default') }}">Usuários</a>
+{% endblock body %}

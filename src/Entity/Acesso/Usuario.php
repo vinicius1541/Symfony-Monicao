@@ -48,7 +48,7 @@ class Usuario implements UserInterface
      */
     private $data_upd;
     /**
-     * @ORM\Column(name="profile", type="integer")
+     * @ORM\Column(name="profile", type="string")
      */
     private $profile;
     /**

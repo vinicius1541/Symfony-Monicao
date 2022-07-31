@@ -20,12 +20,18 @@ class UsuarioRepository extends ServiceEntityRepository
         parent::__construct($registry, Usuario::class);
     }
 
-    public function insert(Usuario $usuarioObject)
+    public function save(Usuario $usuarioObject = null, $update = false)
     {
-        $this->_em->persist($usuarioObject);
+        if($update === false) {
+            $this->_em->persist($usuarioObject);
+        }
         $this->_em->flush();
+    }
 
-        return $usuarioObject;
+    public function delete(Usuario $usuarioObject)
+    {
+        $this->_em->remove($usuarioObject);
+        $this->_em->flush();
     }
     public function getUsers()
     {

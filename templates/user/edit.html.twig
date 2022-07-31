@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Editando Usuario - {{ user.nome}}{% endblock title %}
+
+{% block body %}
+    <form id="form-user" action="{{ path('user_edit', { id: user.idUsuario }) }}" method="post">
+        <div class="">
+            <h6>Editando {{ user.nome }}</h6>
+        </div>
+        <div class="">
+            <label for="input-email">E-mail</label>
+            <input type="email" name="email" id="input-email" required placeholder="seu@email.com" value="{{ user.email }}">
+        </div>
+        <div class="col">
+            <div class="row">
+                <label for="input-nome">Nome</label>
+                <input type="text" name="nome" id="input-nome" value="{{ user.nome }}">
+            </div>
+            <div class="row">
+                <label for="input-login">Login</label>
+                <input type="text" name="login" id="input-login" value="{{ user.login }}">
+            </div>
+            <div class="row">
+                <label for="input-active">Ativo</label>
+                <input type="checkbox" name="active" id="input-active" {% if user.active == true %} checked {% endif %}>
+            </div>
+            <div class="row">
+                <label for="input-profile">Acesso</label>
+                <select name="profile" id="input-profile">
+                    <option value="">Selecione...</option>
+                    <option value="ROLE_ADM" {% if user.profile == "ROLE_ADM" %} selected {% endif %}>Administrador</option>
+                </select>
+            </div>
+        </div>
+        <a href="{{ path('user_default') }}">Voltar</a>
+        <button type="submit">Salvar</button>
+    </form>
+{% endblock body %}
+
