@@ -3,37 +3,96 @@
 {% block title %}Usuários - {{ parent() }}{% endblock %}
 
 {% block body %}
-
-    <table>
-        <thead>
+<div class="container my-5">
+    <div class="shadow-4 rounded-5 overflow-hidden">
+        <table class="table align-middle mb-0 table-light table-hover">
+            <thead class="bg-light">
             <tr>
                 <th>NOME</th>
-                <th>E-MAIL</th>
-                <th>PERFIL</th>
-                <th>DATA ADD</th>
                 <th>ATIVO</th>
-                <th>&nbsp;</th>
+                <th>PERFIL</th>
+                <th>DATA ADD.</th>
+                <th></th>
             </tr>
-        </thead>
-        <tbody>
-            {% for user in users %}
-                <tr>
-                    <td>{{ user.nome }}</td>
-                    <td>{{ user.email }}</td>
-                    <td>{{ user.profile }}</td>
-                    <td>{{ user.dataAdd|date }}</td>
-                    <td>{{ user.active }}</td>
-                    <td>
-                        <a href="{{ path('user_edit', {id: user.idUsuario}) }}">Editar</a>
-                        <a href="{{ path('user_delete', {id: user.idUsuario}) }}">Deletar</a>
-                    </td>
-                </tr>
-            {% else %}
-                Nenhum usuário cadastrado!
-            {% endfor %}
-        </tbody>
-    </table>
-    <a href="{{ path('dashboard') }}">Voltar</a>
-    <a href="{{ path('user_add') }}">Adicionar</a>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center">
+{#                                <img#}
+{#                                        src="https://mdbootstrap.com/img/new/avatars/8.jpg"#}
+{#                                        alt=""#}
+{#                                        style="width: 45px; height: 45px"#}
+{#                                        class="rounded-circle"#}
+{#                                />#}
+                                <div class="ms-3">
+                                    <p class="fw-bold mb-1">{{ user.nome }}</p>
+                                    <p class="text-muted mb-0">{{ user.email }}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            {% if user.active %}
+                                <span class="badge badge-success rounded-pill">Ativo</span>
+                            {% else %}
+                                <span class="badge badge-danger rounded-pill">Inativo</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% for role in user.profile %}
+                                <div class="fw-bold d-inline-flex">{% if role in roles|keys %} {{ roles[role] }} {% else %} {{ role }} {% endif %}</div>
+                                <div class="text-muted d-inline-flex">({{ role }})</div>
+                            {% else %}
+                                <div class="fw-bold d-inline-flex">{% if user.profile in roles|keys %} {{ roles[user.profile] }} {% else %} {{ user.profile }} {% endif %}</div>
+                                <div class="text-muted d-inline-flex">{% if user.profile %} ({{ user.profile }}) {% else %} <div class="text-danger text-uppercase text">Sem permissões</div>{% endif %}</div>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            <p class="fw-bold mb-1">{{ user.dataAdd|date('Y-m-d')|anoMesDiaExtenso('complete') }}</p>
+                        </td>
+                        <td>
+                            <a href="{{ path('user_edit', {id: user.idUsuario}) }}" class="btn btn-link link-primary btn-sm btn-rounded">
+                                Editar
+                            </a>
+                            <!-- Button trigger modal -->
+                            <button
+                               class="btn btn-link link-danger btn-sm btn-rounded"
+                               data-mdb-toggle="modal"
+                               data-mdb-target="#excluirModal{{ user.idUsuario }}"> Deletar
+                            </button>
+                        </td>
+                    </tr>
+                    <!-- Modal -->
+                    <div class="modal fade" id="excluirModal{{ user.idUsuario }}" tabindex="-1" aria-labelledby="excluirModalLabel{{ user.idUsuario }}" aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content text-center">
+                                <div class="modal-header bg-danger text-light d-flex justify-content-center">
+                                    <h5 class="modal-title" id="excluirModalLabel">Tem certeza?</h5>
+                                </div>
+                                <div class="modal-body">
+                                    <i class="fas fa-times fa-3x text-danger"></i>
+                                    <p>Deseja apagar o usuário "{{ user.nome }}"?</p>
+                                </div>
+                                <div class="modal-footer d-flex justify-content-center">
+                                    <button type="button" class="btn btn-danger" data-mdb-dismiss="modal">Não</button>
+                                    <a href="{{ path('user_delete', {id: user.idUsuario}) }}" class="btn btn-outline-danger">Excluir</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <tr>
+                        <td>Nenhum usuário cadastrado</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="text-center">
+    <a href="{{ path('dashboard') }}" class="btn btn-link btn-sm btn-rounded">Voltar</a>
+    <a href="{{ path('user_add') }}" class="btn btn-primary btn-sm btn-rounded">Adicionar</a>
+</div>
 {% endblock %}
 

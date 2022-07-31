@@ -26,8 +26,11 @@ class UsuarioController extends AbstractController
      */
     public function index(Request $request, UsuarioRepository $usuarioRepository)
     {
-        $users = $usuarioRepository->findBy(['active'=> 'TRUE']);
-        return $this->render("user/index.html.twig", ["users" => $users]);
+        $users = $usuarioRepository->findAll();
+        $user = new Usuario();
+        $roles = $user->getAcceptedRoles();
+
+        return $this->render("user/index.html.twig", ["users" => $users, "roles" => $roles]);
     }
     /**
      * @Route("/add", name="add")

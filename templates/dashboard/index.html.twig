@@ -2,5 +2,7 @@
 
 {% block title %}Dashboard - {{ parent() }}{% endblock title %}
 {% block body %}
-    <a href="{{ path('user_default') }}">Usuários</a>
+    <div class="ms-auto m-md-2">
+        <a href="{{ path('user_default') }}" class="btn btn-primary"><i class="fas fa-user"></i> Usuários</a>
+    </div>
 {% endblock body %}

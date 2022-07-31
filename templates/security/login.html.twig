@@ -10,12 +10,12 @@
                     <form method="POST" id="form-login" class="form-login animated slow fadeIn">
                         <div class="text-center">
 {#                            <img src="{{ asset('images/icon.png') }}" alt="2iM" width="65px" class="mb-4 mb-sm-5">#}
-{#                            <h2 class="font-weight-bold">Modelos Avaliação</h2>#}
+                            <h2 class="font-weight-bold">Login</h2>
                         </div>
                         {% if app.user %}
                             <p class="text-muted text-center mb-4 mb-sm-5">{{ app.getUser().getNome() }}, você já está logado</p>
                             <div class="text-center">
-{#                                <p><a href="{{ path('dashboard') }}" class="btn btn-outline-primary"><i class="fal fa-home-alt mr-2"></i>Ir para o Dashboard</a></p>#}
+                                <p><a href="{{ path('dashboard') }}" class="btn btn-outline-primary"><i class="fal fa-home-alt mr-2"></i>Ir para o Dashboard</a></p>
                                 <p><a href="{{ path('app_logout') }}" class="text-muted" onclick="loading(true);">Logout</a></p>
                             </div>
                         {% else %}
@@ -39,7 +39,7 @@
                                         <small class=" font-weight-bold">Entrar no sistema</small>
                                     </div>
                                     <div class="col col-auto">
-                                        <i class="fal fa-arrow-right" aria-hidden="true"></i>
+                                        <i class="fas fa-arrow-right" aria-hidden="true"></i>
                                     </div>
                                 </div>
                             </button>

@@ -48,13 +48,18 @@ class Usuario implements UserInterface
      */
     private $data_upd;
     /**
-     * @ORM\Column(name="profile", type="string")
+     * @ORM\Column(name="profile", type="json")
      */
     private $profile;
     /**
      * @ORM\Column(name="force_update", type="boolean")
      */
     private $force_update;
+    private static $roles = [
+        "ROLE_ADM" => "Admin",
+        "ROLE_DENTISTA" => "Dentista",
+        "ROLE_FUNCIONARIO" => "Funcionário"
+    ];
 
     /**
      * @return integer
@@ -218,6 +223,10 @@ class Usuario implements UserInterface
     public function getRoles()
     {
         return ['ROLE_ADM'];
+    }
+    public function getAcceptedRoles()
+    {
+        return self::$roles;
     }
     public function getUserIdentifier()
     {
