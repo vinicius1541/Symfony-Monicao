@@ -168,9 +168,14 @@ class Usuario implements UserInterface
     /**
      * @param mixed $data_add
      */
-    public function setDataAdd()
+    public function setDataAdd($data_add = null): Usuario
     {
-        $this->data_add = new DateTime('America/Sao_Paulo');
+        if ( $data_add === null) {
+            $this->data_add = new DateTime('America/Sao_Paulo');
+        } else {
+            $this->data_add = $data_add;
+        }
+        return $this;
     }
 
     /**

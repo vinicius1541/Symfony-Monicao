@@ -71,6 +71,7 @@ class UsuarioController extends AbstractController
                 $user->setEmail($request->request->get('email'));
                 $user->setActive($request->request->get('active') === "on");
                 $user->setProfile($request->request->get('profile'));
+                $user->setDataAdd($user->getDataAdd());
                 $user->setDataUpd();
 
                 try {
