@@ -63,25 +63,26 @@ class UsuarioController extends AbstractController
     public function edit(Request $request, $id, UsuarioRepository $usuarioRepository)
     {
         $user = $usuarioRepository->find($id);
-        if( $user === null) {
+        if( $user !== null) {
+            if( $request->isMethod("POST") ) {
+
+                $user->setNome($request->request->get('nome'));
+                $user->setLogin($request->request->get('login'));
+                $user->setEmail($request->request->get('email'));
+                $user->setActive($request->request->get('active') === "on");
+                $user->setProfile($request->request->get('profile'));
+                $user->setDataUpd();
+
+                try {
+                    $usuarioRepository->save(null, true);
+                    $this->addFlash("success", "Usuário editado com sucesso!");
+                } catch (\Exception $ex) {
+                    $this->addFlash("error", "Erro ao tentar salvar este usuário!");
+                }
+            }
+        } else {
             $this->addFlash("error", "Usuário não existe!");
             return $this->redirectToRoute('user_default');
-        }
-        if( $request->isMethod("POST") ) {
-
-            $user->setNome($request->request->get('nome'));
-            $user->setLogin($request->request->get('login'));
-            $user->setEmail($request->request->get('email'));
-            $user->setActive($request->request->get('active') === "on");
-            $user->setProfile($request->request->get('profile'));
-            $user->setDataUpd();
-
-            try {
-                $usuarioRepository->save(null, true);
-                $this->addFlash("success", "Usuário editado com sucesso!");
-            } catch (\Exception $ex) {
-                $this->addFlash("error", "Erro ao tentar salvar este usuário!");
-            }
         }
 
         return $this->render("user/edit.html.twig", ['user' => $user]);
@@ -93,15 +94,15 @@ class UsuarioController extends AbstractController
     {
         $user = $usuarioRepository->find($id);
 
-        if( $user === null ) {
+        if ( $user !== null ) {
+            try {
+                $usuarioRepository->delete($user);
+                $this->addFlash("success", "Usuário deletado com sucesso!");
+            } catch (\Exception $ex) {
+                $this->addFlash("error", "Erro ao deletar usuário");
+            }
+        } else {
             $this->addFlash("error", "Usuário não existe");
-            return $this->redirectToRoute("user_default");
-        }
-        try {
-            $usuarioRepository->delete($user);
-            $this->addFlash("success", "Usuário deletado com sucesso!");
-        } catch (\Exception $ex) {
-            $this->addFlash("error", "Erro ao deletar usuário");
         }
         return $this->redirectToRoute("user_default");
     }
