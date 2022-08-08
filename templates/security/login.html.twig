@@ -3,51 +3,87 @@
 {% block title %}Login{% endblock %}
 
 {% block body %}
-    <div id="wrapper" class="d-flex container bg-login w-100">
-        <div class="row align-items-center justify-content-center media-body">
-            <div class="col-12 col-sm-auto">
-                <div class="box p-3 p-sm-5">
-                    <form method="POST" id="form-login" class="form-login animated slow fadeIn">
-                        <div class="text-center">
-{#                            <img src="{{ asset('images/icon.png') }}" alt="2iM" width="65px" class="mb-4 mb-sm-5">#}
-                            <h2 class="font-weight-bold">Login</h2>
-                        </div>
-                        {% if app.user %}
-                            <p class="text-muted text-center mb-4 mb-sm-5">{{ app.getUser().getNome() }}, você já está logado</p>
-                            <div class="text-center">
-                                <p><a href="{{ path('dashboard') }}" class="btn btn-outline-primary"><i class="fal fa-home-alt mr-2"></i>Ir para o Dashboard</a></p>
-                                <p><a href="{{ path('app_logout') }}" class="text-muted" onclick="loading(true);">Logout</a></p>
-                            </div>
-                        {% else %}
-                            <p class="text-muted mb-4 mb-sm-5">Insira seu e-mail e senha para acessar o sistema!</p>
-                            <input type="hidden" name="_csrf_token" id="_csrf_token" value="{{ csrf_token('authenticate') }}">
-                            <div class="form-group">
-                                <label class="has-float-label">
-                                    <input type="text" value="" name="login" id="login" class="form-control py-4" required placeholder="seu@email.com" autofocus autocomplete="username">
-                                    <span>Usuário</span>
-                                </label>
-                            </div>
-                            <div class="form-group">
-                                <label class="has-float-label">
-                                    <input type="password" name="senha" id="senha" required class="form-control py-4" autocomplete="new-password" placeholder="Senha">
-                                    <span>Senha</span>
-                                </label>
-                            </div>
-                            <button class="btn btn-block btn-primary text-left py-2" type="submit">
-                                <div class="row align-items-center py-1">
-                                    <div class="col">
-                                        <small class=" font-weight-bold">Entrar no sistema</small>
-                                    </div>
-                                    <div class="col col-auto">
-                                        <i class="fas fa-arrow-right" aria-hidden="true"></i>
-                                    </div>
-                                </div>
-                            </button>
-                            <p class="text-center pt-3 pt-sm-4 mb-0"><small><a href="#">Esqueceu a senha?</a></small></p>
-                        {% endif %}
-                    </form>
+<div class="wrapper">
+    <section class="login-content">
+        {% if app.user %}
+            <div class="row p-5 m-0 align-items-center vh-20">
+                <div class="col-d-6">
+                    <p class="text-muted text-center mb-4 mb-sm-5">{{ app.getUser().getNome() }}, você já está logado</p>
+                    <div class="text-center">
+                        <p><a href="{{ path('dashboard') }}" class="btn btn-outline-primary"><i class="fas fa-home-alt mr-2"></i> Ir para o Dashboard</a></p>
+                        <p><a href="{{ path('app_logout') }}" class="text-muted" onclick="loading(true);">Logout</a></p>
+                    </div>
                 </div>
             </div>
+        {% else %}
+        <div class="row m-0 align-items-center bg-white vh-100">
+            <div class="col-md-6">
+                <div class="row justify-content-center">
+                    <div class="col-md-10">
+                        <div class="card card-transparent shadow-none d-flex justify-content-center mb-0 auth-card">
+                            <div class="card-body">
+                                <a href="#" class="navbar-brand d-flex justify-content-center lg mb-4">
+                                    <!--Logo start-->
+                                    <svg width="30" class="" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <rect x="-0.757324" y="19.2427" width="28" height="4" rx="2" transform="rotate(-45 -0.757324 19.2427)" fill="currentColor"/>
+                                        <rect x="7.72803" y="27.728" width="28" height="4" rx="2" transform="rotate(-45 7.72803 27.728)" fill="currentColor"/>
+                                        <rect x="10.5366" y="16.3945" width="16" height="4" rx="2" transform="rotate(45 10.5366 16.3945)" fill="currentColor"/>
+                                        <rect x="10.5562" y="-0.556152" width="28" height="4" rx="2" transform="rotate(45 10.5562 -0.556152)" fill="currentColor"/>
+                                    </svg>
+                                    <!--logo End-->
+                                    <h4 class="logo-title ms-3">Monicao</h4>
+                                </a>
+                                <h2 class="mb-2 text-center">Log in</h2>
+                                <p class="text-center">Logue-se para ficar conectado.</p>
+                                <form method="POST" id="form-login" class="form-login animated slow fadeIn">
+                                    <div class="row">
+                                        <input type="hidden" name="_csrf_token" id="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                                        <div class="col-lg-12">
+                                            <div class="form-floating form-group mb-3">
+                                                <input type="text" class="form-control" name="login" id="login" aria-describedby="login" placeholder=" ">
+                                                <label for="login" class="form-label">Login</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="form-floating form-group mb-3">
+                                                <input type="password" class="form-control" name="senha" id="senha" aria-describedby="senha" placeholder=" ">
+                                                <label for="senha" class="form-label">Senha</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-center">
+                                        <button class="btn btn-primary text-left py-2" type="submit">
+                                            <div class="row align-items-center py-1 ">
+                                                <div class="col">
+                                                    <small class=" font-weight-bold">Entrar</small>
+                                                </div>
+                                                <div class="col col-auto">
+                                                    <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sign-bg">
+                    <svg width="280" height="230" viewBox="0 0 431 398" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g opacity="0.05">
+                            <rect x="-157.085" y="193.773" width="543" height="77.5714" rx="38.7857" transform="rotate(-45 -157.085 193.773)" fill="#3B8AFF"/>
+                            <rect x="7.46875" y="358.327" width="543" height="77.5714" rx="38.7857" transform="rotate(-45 7.46875 358.327)" fill="#3B8AFF"/>
+                            <rect x="61.9355" y="138.545" width="310.286" height="77.5714" rx="38.7857" transform="rotate(45 61.9355 138.545)" fill="#3B8AFF"/>
+                            <rect x="62.3154" y="-190.173" width="543" height="77.5714" rx="38.7857" transform="rotate(45 62.3154 -190.173)" fill="#3B8AFF"/>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+            <div class="col-md-6 d-md-block d-none bg-primary p-0 mt-n1 vh-100 overflow-hidden">
+                <img src="{{ asset('images/auth/01.png') }}" class="img-fluid gradient-main animated-scaleX" alt="images">
+            </div>
         </div>
-    </div>
+        {% endif %}
+    </section>
+</div>
 {% endblock %}

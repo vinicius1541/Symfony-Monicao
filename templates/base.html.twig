@@ -17,27 +17,80 @@
                     href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
                     rel="stylesheet"
             />
-            <!-- MDB -->
-            <link href="{{ asset('css/mdb.min.css') }}" rel="stylesheet"/>
+            <!-- Favicon -->
+            <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}" />
+
+            <!-- Library / Plugin Css Build -->
+            <link rel="stylesheet" href="{{ asset('css/core/libs.min.css') }}" />
+
+            <!-- Aos Animation Css -->
+            <link rel="stylesheet" href="{{ asset('vendor/aos/dist/aos.css') }}" />
+
+            <!-- Hope Ui Design System Css -->
+            <link rel="stylesheet" href="{{ asset('css/hope-ui.min.css') }}?v=1.2.0" />
+
+            <!-- Custom Css -->
+            <link rel="stylesheet" href="{{ asset('css/custom.min.css') }}?v=1.2.0" />
+
+            <!-- Dark Css -->
+            <link rel="stylesheet" href="{{ asset('css/dark.min.css') }}"/>
+
+            <!-- Customizer Css -->
+            <link rel="stylesheet" href="{{ asset('css/customizer.min.css') }}" />
+
+            <!-- RTL Css -->
+            <link rel="stylesheet" href="{{ asset('css/rtl.min.css') }}"/>
         {% endblock %}
 
     </head>
-    <body>
-        {% if app.user %} {% include 'header.html.twig' %} {% endif %}
+    <body class=" " data-bs-spy="scroll" data-bs-target="#elements-section" data-bs-offset="0" tabindex="0">
+    <!-- loader Start -->
+    <div id="loading">
+        <div class="loader simple-loader">
+            <div class="loader-body"></div>
+        </div>
+    </div>
+    <!-- loader END -->
+    {% if app.user %} {% include 'menu.html.twig' %} {% include 'header.html.twig' %}{% endif %}
         {% include 'common/flash-messages.html.twig' %}
         {% block body %}{% endblock %}
+        {% if app.user %} {% include 'footer.html.twig' %} {% endif %}
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
             <script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
-            <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js"
-                    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-                    crossorigin="anonymous">
-            </script>
-            <!-- MDB -->
-            <script
-                    type="text/javascript"
-                    src="{{ asset('js/mdb.min.js') }}"
-            ></script>
+
+            <!-- Library Bundle Script -->
+            <script src="{{ asset('js/core/libs.min.js') }}"></script>
+
+            <!-- External Library Bundle Script -->
+            <script src="{{ asset('js/core/external.min.js') }}"></script>
+
+            <!-- Widgetchart Script -->
+            <script src="{{ asset('js/charts/widgetcharts.js') }}"></script>
+
+            <!-- mapchart Script -->
+            <script src="{{ asset('js/charts/vectore-chart.js') }}"></script>
+            <script src="{{ asset('js/charts/dashboard.js') }}" ></script>
+
+            <!-- fslightbox Script -->
+            <script src="{{ asset('js/plugins/fslightbox.js') }}"></script>
+
+            <!-- Settings Script -->
+            <script src="{{ asset('js/plugins/setting.js') }}"></script>
+
+            <!-- Slider-tab Script -->
+            <script src="{{ asset('js/plugins/slider-tabs.js') }}"></script>
+
+            <!-- Form Wizard Script -->
+            <script src="{{ asset('js/plugins/form-wizard.js') }}"></script>
+
+            <!-- AOS Animation Plugin-->
+            <script src="{{ asset('vendor/aos/dist/aos.js') }}"></script>
+
+            <!-- App Script -->
+            <script src="{{ asset('js/hope-ui.js') }}" defer></script>
         {% endblock %}
+    {% block custom_js %}
+    {% endblock custom_js %}
     </body>
 </html>

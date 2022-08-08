@@ -27,8 +27,7 @@ class UsuarioController extends AbstractController
     public function index(Request $request, UsuarioRepository $usuarioRepository)
     {
         $users = $usuarioRepository->findAll();
-        $user = new Usuario();
-        $roles = $user->getAcceptedRoles();
+        $roles = Usuario::getAcceptedRoles();
 
         return $this->render("user/index.html.twig", ["users" => $users, "roles" => $roles]);
     }
@@ -37,6 +36,7 @@ class UsuarioController extends AbstractController
      */
     public function add(Request $request, UsuarioRepository $usuarioRepository)
     {
+        $roles = Usuario::getAcceptedRoles();
         if ($request->isMethod("POST")) {
             try {
                 $usuarioObject = new Usuario();
@@ -45,32 +45,50 @@ class UsuarioController extends AbstractController
                 $usuarioObject->setEmail($request->request->get('email'));
                 $usuarioObject->setPassword($this->passwordEncoder->encodePassword($usuarioObject, $request->request->get('senha')));
                 $usuarioObject->setActive($request->request->get('active') === "on");
-                $usuarioObject->setProfile($request->request->get('profile'));
+                $profiles = array();
+                if( $request->request->get('profile') ) {
+                    foreach ( $request->request->get('profile')['perfil'] AS $profile) {
+                        $profiles[] = $profile;
+                    }
+                    $usuarioObject->setProfile($profiles);
+                } else {
+                    $usuarioObject->setProfile(array(""));
+                }
                 $usuarioObject->setDataAdd();
                 $usuarioObject->setForceUpdate(false);
 
                 $usuarioRepository->save($usuarioObject);
                 $this->addFlash("success", "Usuário salvo!");
             } catch (\Exception $ex) {
-                $this->addFlash("error", "Ocorreu um erro ao tentar salvar este usuário!: {$ex->getMessage()}");
+                $this->addFlash("error", "Ocorreu um erro ao tentar salvar este usuário!");
             }
         }
-        return $this->render("user/add.html.twig");
+        return $this->render("user/add.html.twig", ['roles' => $roles]);
     }
     /**
      * @Route("/edit/{id}", name="edit")
      */
     public function edit(Request $request, $id, UsuarioRepository $usuarioRepository)
     {
+
+        $roles = Usuario::getAcceptedRoles();
         $user = $usuarioRepository->find($id);
         if( $user !== null) {
             if( $request->isMethod("POST") ) {
-
                 $user->setNome($request->request->get('nome'));
                 $user->setLogin($request->request->get('login'));
                 $user->setEmail($request->request->get('email'));
                 $user->setActive($request->request->get('active') === "on");
-                $user->setProfile($request->request->get('profile'));
+                $user->cleanProfile();
+                $profiles = array();
+                if( $request->request->get('profile') ) {
+                    foreach ( $request->request->get('profile')['perfil'] AS $profile) {
+                        $profiles[] = $profile;
+                    }
+                    $user->setProfile($profiles);
+                } else {
+                    $user->setProfile(array(""));
+                }
                 $user->setDataAdd($user->getDataAdd());
                 $user->setDataUpd();
 
@@ -78,7 +96,7 @@ class UsuarioController extends AbstractController
                     $usuarioRepository->save(null, true);
                     $this->addFlash("success", "Usuário editado com sucesso!");
                 } catch (\Exception $ex) {
-                    $this->addFlash("error", "Erro ao tentar salvar este usuário!");
+                    $this->addFlash("error", "Erro ao tentar editar este usuário!: {$ex->getMessage()}");
                 }
             }
         } else {
@@ -86,7 +104,7 @@ class UsuarioController extends AbstractController
             return $this->redirectToRoute('user_default');
         }
 
-        return $this->render("user/edit.html.twig", ['user' => $user]);
+        return $this->render("user/edit.html.twig", ['user' => $user, 'roles' => $roles]);
     }
     /**
      * @Route("/delete/{id}",name="delete")

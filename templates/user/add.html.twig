@@ -1,42 +1,83 @@
 {% extends 'base.html.twig' %}
 
 {% block title %} Adicionar Usuários - {{ parent() }}{% endblock title %}
-
+{% block custom_js %}
+    <script src="{{ asset('js/custom.js') }}"></script>
+{% endblock custom_js %}
 {% block body %}
-    <form id="form-user" action="{{ path('user_add') }}" method="post">
-        <div class="">
-            <h6>DADOS DO USUÁRIO</h6>
+<form action="{{ path('user_add') }}" method="post">
+    <div class="col-xl-12 col-lg-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <div class="header-title">
+                    <h4 class="card-title">Informações do novo usuário</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="new-user-info">
+                    <form>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-floating form-group mb-3">
+                                    <input name="nome" type="text" class="form-control" id="input-nome" placeholder="Nome completo">
+                                    <label class="form-label" for="input-nome">Nome</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-floating form-group mb-3">
+                                    <input name="email" type="email" class="form-control" id="input-email" placeholder="Email">
+                                    <label class="form-label" for="input-email">Email</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-floating form-group mb-3">
+                                    <input name="login" type="text" class="form-control form-text" id="input-login" placeholder="Login">
+                                    <label class="form-label" for="input-login">Login</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-floating form-group mb-3">
+                                    <input name="senha" type="password" class="form-control form-text" id="input-senha" placeholder="Senha">
+                                    <label class="form-label" for="input-senha">Senha</label>
+                                </div>
+                            </div>
+                        </div>
+                        <h5 class="mb-3">Permissões </h5>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group mb-3">
+                                    {% for key, role in roles %}
+                                        <div class="form-check form-switch">
+                                            <input type="hidden" name="profile[perfil][]" id="input-profile-hidden[]" value="{{ key }}">
+                                            <input class="form-check-input profile-check" type="checkbox" name="profile[active][]" id="input-profile[]">
+                                            <label class="form-check-label" for="input-profile[]">
+                                                {{ role }}
+                                            </label>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group mb-3 mt-4 form-check form-switch">
+                                    <input name="active" class="form-check-input" type="checkbox" id="input-active" checked="">
+                                    <label class="form-check-label" for="input-active">Ativo</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <a href="{{ path('user_default') }}" class="btn btn-link text-primary btn-sm rounded-pill">Voltar</a>
+                            <button type="submit" class="btn btn-primary btn-sm rounded-pill">
+                                <i class="fas fa-floppy-disk"></i> Salvar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div class="">
-            <label for="input-email">E-mail</label>
-            <input type="email" name="email" id="input-email" required placeholder="seu@email.com">
-        </div>
-        <div class="row">
-            <div class="col">
-                <label for="input-nome">Nome</label>
-                <input type="text" name="nome" id="input-nome">
-            </div>
-            <div class="col">
-                <label for="input-login">Login</label>
-                <input type="text" name="login" id="input-login">
-            </div>
-            <div class="col">
-                <label for="input-senha">Senha</label>
-                <input type="password" name="senha" id="input-senha">
-            </div>
-            <div class="col">
-                <label for="input-active">Ativo</label>
-                <input type="checkbox" name="active" id="input-active">
-            </div>
-            <div class="col">
-                <label for="input-profile">Acesso</label>
-                <select name="profile" id="input-profile">
-                    <option value="">Selecione...</option>
-                    <option value="ROLE_ADM">Administrador</option>
-                </select>
-            </div>
-        </div>
-        <a href="{{ path('user_default') }}">Voltar</a>
-        <button type="submit">Salvar</button>
-    </form>
+    </div>
+</form>
 {% endblock body %}

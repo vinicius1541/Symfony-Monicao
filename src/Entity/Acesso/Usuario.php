@@ -55,6 +55,11 @@ class Usuario implements UserInterface
      * @ORM\Column(name="force_update", type="boolean")
      */
     private $force_update;
+    /**
+     * To add a new ROLE accepted, you need to put the key and then the value(the name of the role)
+     * Example:
+     *  "ROLE_TEST" => "Test"
+     */
     private static $roles = [
         "ROLE_ADM" => "Admin",
         "ROLE_DENTISTA" => "Dentista",
@@ -225,11 +230,16 @@ class Usuario implements UserInterface
     {
         $this->profile = $profile;
     }
+    public function cleanProfile()
+    {
+        $this->profile = null;
+        return $this;
+    }
     public function getRoles()
     {
         return ['ROLE_ADM'];
     }
-    public function getAcceptedRoles()
+    public static function getAcceptedRoles(): array
     {
         return self::$roles;
     }
