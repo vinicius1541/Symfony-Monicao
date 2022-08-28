@@ -40,6 +40,8 @@
 
             <!-- RTL Css -->
             <link rel="stylesheet" href="{{ asset('css/rtl.min.css') }}"/>
+            <!-- JQuery Confirm Css-->
+            <link rel="stylesheet" href="{{ asset('css/jquery-confirm.min.css') }}">
         {% endblock %}
 
     </head>
@@ -52,12 +54,15 @@
     </div>
     <!-- loader END -->
     {% if app.user %} {% include 'menu.html.twig' %} {% include 'header.html.twig' %}{% endif %}
-        {% include 'common/flash-messages.html.twig' %}
         {% block body %}{% endblock %}
         {% if app.user %} {% include 'footer.html.twig' %} {% endif %}
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
+            <!-- JQuery Scripts -->
             <script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
+            <script src="{{ asset('js/jquery-confirm.min.js') }}"></script>
+            <!-- Custom Script -->
+            <script src="{{ asset('js/scripts.js') }}"></script>
 
             <!-- Library Bundle Script -->
             <script src="{{ asset('js/core/libs.min.js') }}"></script>

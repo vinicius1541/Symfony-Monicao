@@ -1,0 +1,82 @@
+<div class="modal fade">
+    {% if app.request.attributes.get('_route') == "user_edit" %}
+        {% set action_url = path('user_edit', { id_usuario: user.idUsuario }) %}
+        {% set is_edit = true %}
+    {% else %}
+        {% set action_url = path('user_add') %}
+        {% set is_edit = false %}
+    {% endif %}
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <form action="{{ action_url }}" method="post" class="modal-content bg-white validate">
+            <div class="modal-header bg-white">
+                <h5 class="modal-title">
+                    {{ is_edit ? "Editando Usuario " ~ user.nome : "Cadastrar Usuário" }}
+                </h5>
+                <div class="d-flex gap-2">
+                    <a href="#" class="btn-close" data-bs-dismiss="modal"></a>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-floating form-group mb-3">
+                            <input name="nome" type="text" class="form-control" id="input-nome" placeholder="Nome completo" value="{{ user.nome }}">
+                            <label class="form-label" for="input-nome">Nome</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-floating form-group mb-3">
+                            <input name="email" type="email" class="form-control" id="input-email" placeholder="Email" value="{{ user.email }}">
+                            <label class="form-label" for="input-email">Email</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-floating form-group mb-3">
+                            <input name="login" type="text" class="form-control form-text" id="input-login" placeholder="Login" value="{{ user.login }}">
+                            <label class="form-label" for="input-login">Login</label>
+                        </div>
+                    </div>
+                    {% if is_edit == false %}
+                        <div class="col-lg-6">
+                            <div class="form-floating form-group mb-3">
+                                <input name="senha" type="password" class="form-control form-text" id="input-senha" placeholder="Senha">
+                                <label class="form-label" for="input-login">Senha</label>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+                <h5 class="mb-3">Permissões </h5>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group mb-3">
+                            {% for key, role in roles %}
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input profile-check" type="checkbox" name="profile[perfil][]" id="input-profile[]" value="{{ key }}" {% if key in user.profile %} checked {% endif %}>
+                                    <label class="form-check-label" for="input-profile[]">
+                                        {{ role }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group mb-3 mt-4 form-check form-switch">
+                            <input name="active" class="form-check-input" type="checkbox" id="input-active" {% if user.active == true %} checked {% endif %}>
+                            <label class="form-check-label" for="input-active">Ativo</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-white text-center">
+                    <a href="{{ path('user_default') }}" class="btn btn-link text-primary btn-sm" data-bs-dismiss="modal">Voltar</a>
+                    <button type="submit" class="btn btn-primary btn-sm">
+                        <i class="fas fa-floppy-disk"></i> Salvar
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
