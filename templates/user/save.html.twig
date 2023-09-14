@@ -55,7 +55,7 @@
                         <div class="form-group mb-3">
                             {% for key, role in roles %}
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input profile-check" type="checkbox" name="profile[perfil][]" id="input-profile[]" value="{{ key }}" {% if key in user.profile %} checked {% endif %}>
+                                    <input class="form-check-input profile-check" type="checkbox" name="profile[perfil][{{ key }}]" id="input-profile[]" {% if key in user.profile %} checked {% endif %}>
                                     <label class="form-check-label" for="input-profile[]">
                                         {{ role }}
                                     </label>

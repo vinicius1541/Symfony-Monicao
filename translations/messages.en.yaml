@@ -1,0 +1,6 @@
+menu:
+  user:
+    card-title: Users
+button:
+  user:
+    list: Users

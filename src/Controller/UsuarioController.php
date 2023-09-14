@@ -76,8 +76,10 @@ class UsuarioController extends AbstractController
                 $user->cleanProfile();
                 $profiles = array();
                 if( isset($content['profile']) ) {
-                    foreach ( $content['profile']['perfil'] AS $profile) {
-                        $profiles[] = $profile;
+                    foreach ( $content['profile']['perfil'] AS $key => $profile) {
+                        if ( $profile === "true" ) {
+                            $profiles[] = $key;
+                        }
                     }
                     $user->setProfile($profiles);
                 } else {

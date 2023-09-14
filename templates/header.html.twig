@@ -40,16 +40,35 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="mb-2 navbar-nav ms-auto align-items-center navbar-list mb-lg-0">
                         <li class="nav-item dropdown">
+                            <a href="#" class="search-toggle nav-link" id="languages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="{{ asset('images/Flag/' ~ app.request.locale ~'.png') }}" class="img-fluid rounded-circle"{{ app.request.locale }}" style="width: 30px;height: 30px;min-width: 30px;">
+                                <span class="bg-primary"></span>
+                            </a>
+                            <div class="p-0 sub-drop dropdown-menu dropdown-menu-end" aria-labelledby="languages">
+                                <div class="m-0 border-0 shadow-none card">
+                                    <div class="p-0 ">
+                                        <ul class="p-0 list-group list-group-flush">
+                                            {% set langAccepted = {'pt_BR': 'Português', 'en': 'English'} %}
+                                            {% for loc in ['en', 'pt_BR'] %}
+                                                {% if loc != app.request.locale %}
+                                                    <a href="{{ url('language', {'lang': loc}, schemeRelative = false) }}">
+                                                        <li class="iq-sub-card list-group-item p-0">
+                                                            <img src="{{ asset('images/Flag/' ~ loc ~'.png') }}" alt="{{loc}}" class="img-fluid me-2" style="width: 15px;height: 15px;min-width: 15px;"/>{{ langAccepted[loc]|trans }}
+                                                        </li>
+                                                    </a>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
                             <a class="py-0 nav-link d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="{{ asset('images/avatars/01.png') }}" alt="User-Profile" class="theme-color-default-img img-fluid avatar avatar-50 avatar-rounded">
-                                <img src="{{ asset('images/avatars/avtar_1.png') }}" alt="User-Profile" class="theme-color-purple-img img-fluid avatar avatar-50 avatar-rounded">
-                                <img src="{{ asset('images/avatars/avtar_2.png') }}" alt="User-Profile" class="theme-color-blue-img img-fluid avatar avatar-50 avatar-rounded">
-                                <img src="{{ asset('images/avatars/avtar_3.png') }}" alt="User-Profile" class="theme-color-green-img img-fluid avatar avatar-50 avatar-rounded">
-                                <img src="{{ asset('images/avatars/avtar_4.png') }}" alt="User-Profile" class="theme-color-yellow-img img-fluid avatar avatar-50 avatar-rounded">
-                                <img src="{{ asset('images/avatars/avtar_5.png') }}" alt="User-Profile" class="theme-color-pink-img img-fluid avatar avatar-50 avatar-rounded">
+                                <img src="{{ asset('images/avatars/avatar_'~random([1,6,7,8,9,10])~'.png') }}" alt="User-Profile" class="theme-color-default-img img-fluid avatar avatar-50 avatar-rounded">
                                 <div class="caption ms-3 d-none d-md-block ">
                                     <h6 class="mb-0 caption-title">{{ app.user.nome }}</h6>
-                                    <p class="mb-0 caption-sub-title">{{ app.user.acceptedRoles[app.user.profile[0]] is defined ? app.user.acceptedRoles[app.user.profile[0]] :'Sem permissões' }}</p>
+{#                                    <p class="mb-0 caption-sub-title">{{ app.user.acceptedRoles[app.user.profile[0]] is defined ? app.user.acceptedRoles[app.user.profile[0]] :'Sem permissões' }}</p>#}
                                 </div>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
