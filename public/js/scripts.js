@@ -281,7 +281,7 @@ function loading(status, text = "Carregando...") {
 /*---------------------------------------------------------------------
               MASKINPUT
 -----------------------------------------------------------------------*/
-function mascarasInput() {
+function inputMask() {
     $(".cpf").mask('000.000.000-00', { reverse: true });
     $('.cep').mask('00000-000');
     $(".data").mask("00/00/0000");
@@ -309,7 +309,7 @@ function mascarasInput() {
                 field.mask(maskBehavior.apply({}, arguments), options);
             }
         };
-    $('.telefone').mask(maskBehavior, options);
+    $('.phone').mask(maskBehavior, options);
 }
 
 /*---------------------------------------------------------------------

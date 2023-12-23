@@ -1,12 +1,12 @@
 security:
     encoders:
-        App\Entity\Acesso\Usuario:
+        App\Entity\Access\User:
             algorithm: bcrypt
             cost: 15
     providers:
         user:
             entity:
-                class: App\Entity\Acesso\Usuario
+                class: App\Entity\Access\User
                 property: login
     firewalls:
         dev:

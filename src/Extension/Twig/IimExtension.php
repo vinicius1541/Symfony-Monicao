@@ -38,7 +38,7 @@ class IimExtension extends AbstractExtension
      */
     public static function anoMesDiaExtensoFilter(string $anoMesDia, string $abbv): string
     {
-        if( strstr($anoMesDia, '-') ){
+        if(strpos($anoMesDia, '-') !== false){
             $anoMesDia = str_replace('-', '', $anoMesDia);
         }
         return DateHelper::formataAnoMesDiaExtenso($anoMesDia, $abbv);

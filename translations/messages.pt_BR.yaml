@@ -1,6 +1,29 @@
-menu:
+text:
   user:
     card-title: Usuários
+    modal-title-edit: Editando usuário
+    modal-title-register: Cadastrar usuário
+    success-messages:
+      save: Usuário salvo com sucesso!
+      delete: Usuário deletado com sucesso!
+    error-messages:
+      not-found: Este usuário não foi encontrado!
+      save: Ocorreu um erro ao tentar salvar esse usuário!
+      delete: Ocorreu um erro ao tentar deletar esse usuário!
+  employee:
+    card-title: Funcionários
+    table-results: Nenhum funcionário cadastrado.
+    modal-title-edit: Editando funcionário
+    modal-title-register: Cadastrar funcionário
+    success-messages:
+      save: Funcionário cadastrado com sucesso!
+      delete: Funcionário deletado com sucesso!
+    error-messages:
+      not-found: Funcionário não encontrado!
+      save: Ocorreu um erro ao tentar salvar esse funcionário!
+      delete:  Ocorreu um erro ao tentar deletar esse funcionário!
 button:
   user:
     list: Usuários
+  employee:
+    list: Funcionários

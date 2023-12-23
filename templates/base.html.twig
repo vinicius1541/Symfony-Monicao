@@ -38,6 +38,9 @@
             <!-- Customizer Css -->
             <link rel="stylesheet" href="{{ asset('css/customizer.min.css') }}" />
 
+            <!-- Custom Css -->
+            <link rel="stylesheet" href="{{ asset('css/custom.css') }}" />
+
             <!-- RTL Css -->
             <link rel="stylesheet" href="{{ asset('css/rtl.min.css') }}"/>
             <!-- JQuery Confirm Css-->
@@ -46,13 +49,7 @@
 
     </head>
     <body class=" " data-bs-spy="scroll" data-bs-target="#elements-section" data-bs-offset="0" tabindex="0">
-    <!-- loader Start -->
-    <div id="loading">
-        <div class="loader simple-loader">
-            <div class="loader-body"></div>
-        </div>
-    </div>
-    <!-- loader END -->
+
     {% if app.user %} {% include 'menu.html.twig' %} {% include 'header.html.twig' %}{% endif %}
         {% block body %}{% endblock %}
         {% if app.user %} {% include 'footer.html.twig' %} {% endif %}
@@ -95,7 +92,7 @@
             <!-- App Script -->
             <script src="{{ asset('js/hope-ui.js') }}" defer></script>
         {% endblock %}
-    {% block custom_js %}
-    {% endblock custom_js %}
+        {% block custom_js %}
+        {% endblock custom_js %}
     </body>
 </html>

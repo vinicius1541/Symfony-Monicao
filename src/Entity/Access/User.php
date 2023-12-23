@@ -1,28 +1,28 @@
 <?php
 
-namespace App\Entity\Acesso;
+namespace App\Entity\Access;
 
-use App\Repository\Acesso\UsuarioRepository;
+use App\Repository\Access\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Datetime;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Table(name="acesso.usuario")
- * @ORM\Entity(repositoryClass=UsuarioRepository::class)
+ * @ORM\Table(name="access.user")
+ * @ORM\Entity(repositoryClass=UserRepository::class)
  */
-class Usuario implements UserInterface
+class User implements UserInterface
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
-     * @ORM\Column(name="id_usuario", type="integer")
+     * @ORM\Column(name="user_id", type="integer")
      */
-    private $id_usuario;
+    private $user_id;
     /**
-     * @ORM\Column(name="nome", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=255)
      */
-    private $nome;
+    private $name;
     /**
      * @ORM\Column(name="email", type="string", length=255)
      */
@@ -40,13 +40,13 @@ class Usuario implements UserInterface
      */
     private $active;
     /**
-     * @ORM\Column(name="data_add", type="datetimetz")
+     * @ORM\Column(name="date_add", type="datetimetz")
      */
-    private $data_add;
+    private $date_add;
     /**
-     * @ORM\Column(name="data_upd", type="datetimetz")
+     * @ORM\Column(name="date_upd", type="datetimetz")
      */
-    private $data_upd;
+    private $date_upd;
     /**
      * @ORM\Column(name="profile", type="json")
      */
@@ -65,37 +65,45 @@ class Usuario implements UserInterface
         "ROLE_DENTISTA" => "Dentista",
         "ROLE_FUNCIONARIO" => "Funcionário"
     ];
-
+    /**
+     * @ORM\OneToOne(targetEntity="Employee", mappedBy="user")
+     */
+    private $employee;
     /**
      * @return integer
      */
-    public function getIdUsuario()
+    public function getUserId()
     {
-        return $this->id_usuario;
+        return $this->user_id;
     }
 
     /**
-     * @param mixed $id_usuario
+     * @param mixed $user_id
      */
-    public function setIdUsuario($id_usuario)
+    public function setUserId($user_id)
     {
-        $this->id_usuario = $id_usuario;
+        $this->user_id = $user_id;
     }
 
     /**
      * @return mixed
      */
-    public function getNome()
+    public function getName()
     {
-        return $this->nome;
+        return $this->name;
     }
 
     /**
-     * @param mixed $nome
+     * @param mixed $name
      */
-    public function setNome($nome)
+    public function setName($name)
     {
-        $this->nome = $nome;
+        $this->name = $name;
+    }
+
+    public function getEmployee()
+    {
+        return $this->employee;
     }
 
     /**
@@ -165,38 +173,31 @@ class Usuario implements UserInterface
     /**
      * @return mixed
      */
-    public function getDataAdd()
+    public function getDateAdd()
     {
-        return $this->data_add;
+        return $this->date_add;
     }
 
-    /**
-     * @param mixed $data_add
-     */
-    public function setDataAdd($data_add = null): Usuario
+    public function setDateAdd(): User
     {
-        if ( $data_add === null) {
-            $this->data_add = new DateTime('America/Sao_Paulo');
-        } else {
-            $this->data_add = $data_add;
-        }
+        $this->date_add = new DateTime('America/Sao_Paulo');
         return $this;
     }
 
     /**
      * @return mixed
      */
-    public function getDataUpd()
+    public function getDateUpd()
     {
-        return $this->data_upd;
+        return $this->date_upd;
     }
 
     /**
-     * @param mixed $data_upd
+     * @param mixed $date_upd
      */
-    public function setDataUpd()
+    public function setDateUpd()
     {
-        $this->data_upd = new DateTime('America/Sao_Paulo');
+        $this->date_upd = new DateTime('America/Sao_Paulo');
     }
 
     /**
@@ -245,7 +246,7 @@ class Usuario implements UserInterface
     }
     public function getUserIdentifier()
     {
-        return $this->getIdUsuario();
+        return $this->getUserId();
     }
     public function getSalt()
     {

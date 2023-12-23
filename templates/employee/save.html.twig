@@ -1,0 +1,110 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Usuários - {{ parent() }}{% endblock %}
+{% if app.request.attributes.get('_route') == "employee_edit" %}
+    {% set action_url = path('employee_edit', { employee_id: employee.employee_id }) %}
+    {% set is_edit = true %}
+{% else %}
+    {% set action_url = path('employee_add') %}
+    {% set is_edit = false %}
+{% endif %}
+{% block body %}
+    <div class="conatiner-fluid content-inner mt-n5 py-0">
+        <div class="row">
+            <div class="col-sm-12 col-lg-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                        <div class="header-title">
+                            <h4 class="card-title">{{ is_edit ? translate('text.employee.modal-title-edit', app.request.locale) ~ employee.name : translate('text.employee.modal-title-register', app.request.locale) }}</h4>
+                        </div>
+                    </div>
+                    <div class="card-body px-0 m-3">
+                        <form action="{{ path('employee_add') }}" method="post" class="row form-employee animated slow fadeIn g-3" novalidate>
+                            <div class="col-lg-4 col-md-6 col-12">
+                                <div class="form-floating form-group mb-3">
+                                    <input name="name" type="text" class="form-control" id="input-name" placeholder="Nome completo" value="{% if employee.name is defined %} {{ employee.name }} {% endif %}" autocomplete="off" required>
+                                    <label class="form-label" for="input-name">Nome</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-12">
+                                <div class="form-floating form-group mb-3">
+                                    <input name="cpf" type="text" class="form-control cpf" id="input-cpf" placeholder="Número do CPF" value="{% if employee.cpf is defined %} {{ employee.cpf }} {% endif %}" autocomplete="off" required>
+                                    <label class="form-label" for="input-cpf">CPF</label>
+                                    <div class="invalid-feedback validate-cpf">
+                                        <i class="fas fa-exclamation-triangle"></i> Por favor, digite um CPF válido!
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-12">
+                                <div class="form-floating form-group mb-3">
+                                    <input name="email" type="email" class="form-control email" id="input-email" placeholder="Email" value="{% if employee.email is defined %} {{ employee.email }} {% endif %}" autocomplete="off" required>
+                                    <label class="form-label" for="input-email">Email</label>
+                                    <div class="invalid-feedback validate-email">
+                                        <i class="fas fa-exclamation-triangle"></i> Por favor, escolha um e-mail válido!
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-12">
+                                <div class="form-floating form-group mb-3">
+                                    <input name="login" type="text" class="form-control form-text" id="input-login" placeholder="Login" value="{% if employee.login is defined %} {{ employee.login }} {% endif %}" autocomplete="off" required>
+                                    <label class="form-label" for="input-login">Login</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-12">
+                                <div class="form-floating form-group mb-3">
+                                    <input name="phone" type="text" class="form-control form-text phone" id="input-phone" placeholder="Phone" value="{% if employee.phone is defined %} {{ employee.phone }} {% endif %}" autocomplete="off" required>
+                                    <label class="form-label" for="input-phone">Celular</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-12">
+                                {% if is_edit == false %}
+                                    <div class="form-floating form-group mb-3">
+                                        <input name="senha" type="password" class="form-control form-text" id="input-senha" placeholder="Senha" required>
+                                        <label class="form-label" for="input-login">Senha</label>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-12">
+                                <h5 class="mb-3">Permissões </h5>
+                                {% for key, role in roles %}
+                                    {% if key != 'ROLE_ADM'%}
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input profile-check cursor-pointer" type="checkbox" name="profile[perfil][{{ key }}]" id="input-profile[]" {% if employee.profile is defined and key in employee.profile %} checked {% endif %}>
+                                            <label class="form-check-label" for="input-profile[]">
+                                                {{ role }}
+                                            </label>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-12">
+                                <div class="form-group mb-3 mt-4 form-check form-switch">
+                                    <input name="active" class="form-check-input cursor-pointer" type="checkbox" id="input-active" {% if employee.active is defined and employee.active == true %} checked {% endif %}>
+                                    <label class="form-check-label" for="input-active">Ativo</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="text-center">
+                                    <a href="{{ path('dashboard') }}" class="btn btn-link btn-sm">Voltar</a>
+                                    <button class="btn btn-primary btn-sm" id="add-employee-submit" type="submit">
+                                        <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path opacity="0.4" d="M21.101 9.58786H19.8979V8.41162C19.8979 7.90945 19.4952 7.5 18.999 7.5C18.5038 7.5 18.1 7.90945 18.1 8.41162V9.58786H16.899C16.4027 9.58786 16 9.99731 16 10.4995C16 11.0016 16.4027 11.4111 16.899 11.4111H18.1V12.5884C18.1 13.0906 18.5038 13.5 18.999 13.5C19.4952 13.5 19.8979 13.0906 19.8979 12.5884V11.4111H21.101C21.5962 11.4111 22 11.0016 22 10.4995C22 9.99731 21.5962 9.58786 21.101 9.58786Z" fill="currentColor"></path>
+                                            <path d="M9.5 15.0156C5.45422 15.0156 2 15.6625 2 18.2467C2 20.83 5.4332 21.5001 9.5 21.5001C13.5448 21.5001 17 20.8533 17 18.269C17 15.6848 13.5668 15.0156 9.5 15.0156Z" fill="currentColor"></path>
+                                            <path opacity="0.4" d="M9.50023 12.5542C12.2548 12.5542 14.4629 10.3177 14.4629 7.52761C14.4629 4.73754 12.2548 2.5 9.50023 2.5C6.74566 2.5 4.5376 4.73754 4.5376 7.52761C4.5376 10.3177 6.74566 12.5542 9.50023 12.5542Z" fill="currentColor"></path>
+                                        </svg> Adicionar
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block custom_js %}
+    <script src="{{ asset('js/jquery-mask-1.14.16.min.js') }}"></script>
+    <script src="{{ asset('js/validation.js') }}" defer></script>
+
+{% endblock custom_js %}

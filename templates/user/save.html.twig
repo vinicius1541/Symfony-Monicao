@@ -1,6 +1,6 @@
 <div class="modal fade">
     {% if app.request.attributes.get('_route') == "user_edit" %}
-        {% set action_url = path('user_edit', { id_usuario: user.idUsuario }) %}
+        {% set action_url = path('user_edit', { user_id: user.userId }) %}
         {% set is_edit = true %}
     {% else %}
         {% set action_url = path('user_add') %}
@@ -10,7 +10,7 @@
         <form action="{{ action_url }}" method="post" class="modal-content bg-white validate">
             <div class="modal-header bg-white">
                 <h5 class="modal-title">
-                    {{ is_edit ? "Editando Usuario " ~ user.nome : "Cadastrar Usuário" }}
+                    {{ is_edit ? translate('text.user.modal-title-edit', app.request.locale) ~ ': ' ~ user.name|upper : translate('text.user.modal-title-register', app.request.locale) }}
                 </h5>
                 <div class="d-flex gap-2">
                     <a href="#" class="btn-close" data-bs-dismiss="modal"></a>
@@ -20,7 +20,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="form-floating form-group mb-3">
-                            <input name="nome" type="text" class="form-control" id="input-nome" placeholder="Nome completo" value="{{ user.nome }}">
+                            <input name="nome" type="text" class="form-control" id="input-nome" placeholder="Nome completo" value="{{ user.name }}">
                             <label class="form-label" for="input-nome">Nome</label>
                         </div>
                     </div>

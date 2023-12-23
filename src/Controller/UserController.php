@@ -2,28 +2,32 @@
 
 namespace App\Controller;
 
-use App\Entity\Acesso\Usuario;
-use App\Repository\Acesso\UsuarioRepository;
+use App\Entity\Access\User;
+use App\Repository\Access\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/user", name="user_")
  */
-class UsuarioController extends AbstractController
+class UserController extends AbstractController
 {
     private UserPasswordEncoderInterface $passwordEncoder;
-    private UsuarioRepository $usuarioRepository;
+    private UserRepository $userRepository;
+    private static TranslatorInterface $translator;
 
     public function __construct(
         UserPasswordEncoderInterface $passwordEncoder,
-        UsuarioRepository $usuarioRepository
+        TranslatorInterface $translator,
+        UserRepository $userRepository
     ){
         $this->passwordEncoder = $passwordEncoder;
-        $this->usuarioRepository = $usuarioRepository;
+        self::$translator = $translator;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -31,48 +35,50 @@ class UsuarioController extends AbstractController
      */
     public function index(Request $request): Response
     {
-        $users = $this->usuarioRepository->findAll();
-        $roles = Usuario::getAcceptedRoles();
+        $users = $this->userRepository->findUsersWithEmployees();
+        $roles = User::getAcceptedRoles();
 
         return $this->render("user/index.html.twig", ["users" => $users, "roles" => $roles]);
     }
     /**
      * Method to save a new user or update a user that already exists
      * @Route("/add", name="add", methods={"POST", "GET"})
-     * @Route("/edit/{id_usuario}", name="edit")
+     * @Route("/edit/{user_id}", name="edit")
      *
      * @param Request $request
-     * @param int|null $id_usuario
+     * @param int|null $user_id
      *
      * @return Response
      */
-    public function save(Request $request, int $id_usuario = null): Response
+    public function save(Request $request, int $user_id = null): Response
     {
         $is_edit = "user_edit" === $request->attributes->get('_route');
-        $roles = Usuario::getAcceptedRoles();
+        $roles = User::getAcceptedRoles();
+        $locale = $request->getLocale();
 
-        if ( $is_edit AND is_null($id_usuario) ) {
-            $this->addFlash("error", "Usuário não existe!");
+        if ( $is_edit AND is_null($user_id) ) {
+            $this->addFlash("error", self::$translator->trans('text.user.error-messages.not-found', [],'messages', $locale));
             return $this->redirectToRoute("user_default");
         }
         if ( $is_edit ) {
-            $user = $this->usuarioRepository->findOneBy(["id_usuario" => $id_usuario]);
-            $user->setDataUpd();
+            $user = $this->userRepository->findOneBy(["user_id" => $user_id]);
+            $user->setDateUpd();
         } else {
-            $user = new Usuario();
-            $user->setDataAdd();
+            $user = new User();
+            $user->setDateAdd();
         }
 
         if ($request->isMethod("POST")) {
             try {
                 $content = $request->request->all();
-                $user->setNome($content['nome']);
+                $user->setName($content['nome']);
                 $user->setLogin($content['login']);
                 $user->setEmail($content['email']);
                 if ( !$is_edit ) {
                     $user->setPassword($this->passwordEncoder->encodePassword($user, $content['senha']));
                 }
-                $user->setActive($content['active'] === "on");
+                $isActive = isset($content['active']) && $content['active'] === "on";
+                $user->setActive($isActive);
                 $user->cleanProfile();
                 $profiles = array();
                 if( isset($content['profile']) ) {
@@ -87,15 +93,12 @@ class UsuarioController extends AbstractController
                 }
                 $user->setForceUpdate(false);
 
-                if ( $is_edit ) {
-                    $this->usuarioRepository->save($user, true);
-                } else {
-                    $this->usuarioRepository->save($user);
-                }
-                $this->addFlash("success", "Usuário salvo!");
+                $this->userRepository->save($user);
+
+                $this->addFlash("success", self::$translator->trans('text.user.success-messages.save', [],'messages', $locale));
                 return $this->redirectToRoute("user_default");
             } catch (\Exception $ex) {
-                $this->addFlash("error", "Ocorreu um erro ao tentar salvar este usuário!");
+                $this->addFlash("error", self::$translator->trans('text.user.error-messages.save', [],'messages', $locale));
                 return $this->redirectToRoute("user_default");
             }
         }
@@ -110,17 +113,17 @@ class UsuarioController extends AbstractController
      */
     public function delete(Request $request, $id): Response
     {
-        $user = $this->usuarioRepository->find($id);
-
+        $user = $this->userRepository->find($id);
+        $locale = $request->getLocale();
         if ( $user !== null ) {
             try {
-                $this->usuarioRepository->delete($user);
-                $this->addFlash("success", "Usuário deletado com sucesso!");
+                $this->userRepository->delete($user);
+                $this->addFlash("success", self::$translator->trans('text.user.success-messages.delete', [],'messages', $locale));
             } catch (\Exception $ex) {
-                $this->addFlash("error", "Erro ao deletar usuário");
+                $this->addFlash("error", self::$translator->trans('text.user.error-messages.delete', [],'messages', $locale));
             }
         } else {
-            $this->addFlash("error", "Usuário não existe");
+            $this->addFlash("error", self::$translator->trans('text.user.error-messages.not-found', [],'messages', $locale));
         }
         return $this->redirectToRoute("user_default");
     }

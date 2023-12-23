@@ -12,7 +12,7 @@
                         <rect x="10.5562" y="-0.556152" width="28" height="4" rx="2" transform="rotate(45 10.5562 -0.556152)" fill="currentColor"/>
                     </svg>
                     <!--logo End-->
-                    <h4 class="logo-title">Hope UI</h4>
+                    <h4 class="logo-title">Monicao</h4>
                 </a>
                 <div class="sidebar-toggle" data-toggle="sidebar" data-active="true">
                     <i class="icon">
@@ -41,7 +41,7 @@
                     <ul class="mb-2 navbar-nav ms-auto align-items-center navbar-list mb-lg-0">
                         <li class="nav-item dropdown">
                             <a href="#" class="search-toggle nav-link" id="languages" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="{{ asset('images/Flag/' ~ app.request.locale ~'.png') }}" class="img-fluid rounded-circle"{{ app.request.locale }}" style="width: 30px;height: 30px;min-width: 30px;">
+                                <img src="{{ asset('images/Flag/' ~ app.request.locale ~'.jpg') }}" class="m-2" alt="{{ app.request.locale }}" width="23">
                                 <span class="bg-primary"></span>
                             </a>
                             <div class="p-0 sub-drop dropdown-menu dropdown-menu-end" aria-labelledby="languages">
@@ -53,7 +53,7 @@
                                                 {% if loc != app.request.locale %}
                                                     <a href="{{ url('language', {'lang': loc}, schemeRelative = false) }}">
                                                         <li class="iq-sub-card list-group-item p-0">
-                                                            <img src="{{ asset('images/Flag/' ~ loc ~'.png') }}" alt="{{loc}}" class="img-fluid me-2" style="width: 15px;height: 15px;min-width: 15px;"/>{{ langAccepted[loc]|trans }}
+                                                            <img src="{{ asset('images/Flag/' ~ loc ~'.jpg') }}" alt="{{loc}}" class="me-2 mb-1" width="20"/>{{ langAccepted[loc]|trans }}
                                                         </li>
                                                     </a>
                                                 {% endif %}
@@ -65,14 +65,14 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="py-0 nav-link d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="{{ asset('images/avatars/avatar_'~random([1,6,7,8,9,10])~'.png') }}" alt="User-Profile" class="theme-color-default-img img-fluid avatar avatar-50 avatar-rounded">
+                                <img src="{{ asset('images/avatars/avatar_'~random([1,6,7,8,9,10])~'.png') }}" alt="User-Profile" class="img-fluid avatar avatar-50 avatar-rounded">
                                 <div class="caption ms-3 d-none d-md-block ">
-                                    <h6 class="mb-0 caption-title">{{ app.user.nome }}</h6>
+                                    <h6 class="mb-0 caption-title">{{ app.user.name }}</h6>
 {#                                    <p class="mb-0 caption-sub-title">{{ app.user.acceptedRoles[app.user.profile[0]] is defined ? app.user.acceptedRoles[app.user.profile[0]] :'Sem permissões' }}</p>#}
                                 </div>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item abre-modal" href="#" data-url="{{ path('user_edit', { id_usuario: app.user.idUsuario }) }}">Editar Perfil</a></li>
+                                <li><a class="dropdown-item abre-modal" href="#" data-url="{{ path('user_edit', { user_id: app.user.userId }) }}">Editar Perfil</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="{{ path('app_logout') }}">Logout</a></li>
                             </ul>

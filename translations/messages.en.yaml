@@ -1,6 +1,29 @@
-menu:
+text:
   user:
     card-title: Users
+    modal-title-edit: Editing user
+    modal-title-register: Register user
+    success-messages:
+      save: User created successfully!
+      delete: User deleted successfully!
+      error-messages:
+        exists: User not found!
+        save: An error occurred while inserting the user!
+        delete: An error occurred while deleting the user!
+  employee:
+    card-title: Employees
+    table-results: No registered employees.
+    modal-title-edit: Editing employee
+    modal-title-register: Register employee
+    success-messages:
+      save: Employee created successfully!
+      delete: Employee deleted successfully!
+    error-messages:
+      exists: Employee not found!
+      save: An error occurred while inserting the employee!
+      delete: An error occurred while deleting the employee!
 button:
   user:
     list: Users
+  employee:
+    list: Employees
